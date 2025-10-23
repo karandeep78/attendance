@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $user= User::create([
+        $user = User::create([
             'name' => 'Admin',
             'email' => 'admin@ams.com',
             'password' => Hash::make('admin@ams.com'),
@@ -27,5 +27,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Adminstrator',
         ]);
         $user->roles()->sync($role->id);
+        
+        // Run the schedule seeder
+        $this->call(ScheduleSeeder::class);
     }
 }

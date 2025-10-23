@@ -50,6 +50,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="pin_code" class="col-sm-3 control-label">PIN Code</label>
+                            <input type="password" class="form-control" id="pin_code" name="pin_code" required minlength="4" maxlength="6" placeholder="Enter PIN code (4-6 digits)">
+                        </div>
+
+                        <div class="form-group">
                             <div>
                                 <button type="submit" class="btn btn-primary waves-effect waves-light">
                                     Submit

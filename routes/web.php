@@ -14,7 +14,6 @@ Auth::routes(['register' => false, 'reset' => false]);
 
 Route::group(['middleware' => ['auth', 'Role'], 'roles' => ['admin']], function () {
     Route::resource('/employees', '\App\Http\Controllers\EmployeeController');
-    Route::resource('/employees', '\App\Http\Controllers\EmployeeController');
     Route::get('/attendance', '\App\Http\Controllers\AttendanceController@index')->name('attendance');
   
     Route::get('/latetime', '\App\Http\Controllers\AttendanceController@indexLatetime')->name('indexLatetime');
