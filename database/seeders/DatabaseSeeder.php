@@ -17,16 +17,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::create([
-            'name' => 'Admin',
-            'email' => 'admin@ams.com',
-            'password' => Hash::make('admin@ams.com'),
-        ]);
-        $role = Role::create([
-            'slug' => 'admin',
-            'name' => 'Adminstrator',
-        ]);
-        $user->roles()->sync($role->id);
+        // Ensure admin user and role exist (idempotent)
+        $user = User::firstOrCreate(
+            ['email' => 'admin@ams.com'],
+            ['name' => 'Admin', 'password' => Hash::make('admin@ams.com')]
+        );
+
+        $role = Role::firstOrCreate(
+            ['slug' => 'admin'],
+            ['name' => 'Adminstrator']
+        );
+
+        // Attach the role to the user (sync with role id)
+        $user->roles()->sync([$role->id]);
         
         // Run the schedule seeder
         $this->call(ScheduleSeeder::class);
