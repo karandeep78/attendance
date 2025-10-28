@@ -22,34 +22,34 @@ class User extends Authenticatable
 
     public function hasAnyRole($roles)
     {
-        if (Is_array($roles)) {
+        if (is_array($roles)) {
             foreach ($roles as $role) {
                 if ($this->hasRole($role)) {
                     return true;
                 }
             }
-        } else {
-            if ($this->hasRole($roles)) {
-                return true;
-            }
+            return false;
         }
 
-        return false;
+        return $this->hasRole($roles);
     }
 
-    public static function hasRole($role)
+    /**
+     * Check if this user has the given role slug.
+     *
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole($role)
     {
-        $user = auth()->user();
-        if (! $user) {
+        // If user has no roles, return false quickly
+        $first = $this->roles()->first();
+        if (! $first) {
             return false;
         }
 
-        $roleModel = $user->roles()->first();
-        if (! $roleModel) {
-            return false;
-        }
-
-        return ($roleModel->slug === $role);
+        // Check by slug against all assigned roles for the user
+        return $this->roles()->pluck('slug')->contains($role);
     }
 
 
