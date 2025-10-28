@@ -30,5 +30,14 @@ class DatabaseSeeder extends Seeder
         
         // Run the schedule seeder
         $this->call(ScheduleSeeder::class);
+
+        // Create a convenience user for karan if it doesn't exist
+        if (!User::where('email', 'karan@gmail.com')->exists()) {
+            User::create([
+                'name' => 'Karan',
+                'email' => 'karan@gmail.com',
+                'password' => Hash::make('karan@123'),
+            ]);
+        }
     }
 }
